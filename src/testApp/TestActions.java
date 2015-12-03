@@ -22,7 +22,7 @@ public class TestActions {
         driver.findElement(By.id("contact_link")).click();
 
         Actions slider = new Actions(driver)
-                .dragAndDropBy(driver.findElement(By.id("slider-1")), -100, 0);
+                .dragAndDropBy(driver.findElement(By.id("slider-1")), -10, 100);
         slider.build().perform();
     }
 }
