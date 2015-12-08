@@ -3,10 +3,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -61,5 +58,32 @@ public class ExcelFileHandler {
         }
 
         return table;
+    }
+
+    public void writeToFile(String fileName, List<String> results)
+    {
+        try {
+            FileInputStream file = new FileInputStream(new File(fileName));
+
+            HSSFWorkbook workbook = new HSSFWorkbook(file);
+            HSSFSheet sheet = workbook.getSheetAt(0);
+
+            Cell cell = null;
+            for (int i = 0; i < results.size(); i++)
+            {
+                cell = sheet.getRow(i).getCell(2);
+                cell.setCellValue(results.get(i));
+
+            }
+            file.close();
+
+            FileOutputStream updateFile = new FileOutputStream(new File("Update" + fileName));
+            workbook.write(updateFile);
+            updateFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
