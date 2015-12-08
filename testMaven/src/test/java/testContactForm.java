@@ -6,9 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
+import java.util.logging.*;
+
 
 /**
  * Created by forteadmin on 12/7/15.
@@ -17,22 +20,35 @@ public class testContactForm {
 
     WebDriver driver;
 
+    private static final Logger logger = Logger.getLogger(testContactForm.class.getName());
+    Handler filehandler = null;
+    Formatter formatter = null;
+
     @Before
-    public void before()
-    {
+    public void before() throws IOException {
+        filehandler = new FileHandler("zootest.log");
+        formatter = new SimpleFormatter();
+        filehandler.setFormatter(formatter);
+        filehandler.setLevel(Level.ALL);
+        logger.addHandler(filehandler);
         driver = new FirefoxDriver();
         driver.navigate().to("http://thetestroom.com/webapp");
+
+        logger.info("About to start the test");
     }
 
     @After
     public void after()
     {
+        logger.info("About to quit the driver");
         driver.quit();
+
     }
     
     @Test
     public void testSubmitForm()
     {
+        logger.info("About to run the test");
         driver.findElement(By.id("contact_link")).click();
         
         driver.findElement(By.name("name_field")).sendKeys(randomString(20));
@@ -41,6 +57,15 @@ public class testContactForm {
         driver.findElement(By.name("email_field")).sendKeys(randomEmail());
         driver.findElement(By.id("submit_message")).click();
         Assert.assertTrue(driver.getCurrentUrl().contains("contact_confirm"));
+
+        try
+        {
+            driver.findElement(By.id("dfgd")).click();
+        }
+        catch (Exception e)
+        {
+            logger.log(Level.SEVERE, "Some severe issue occurred", e);
+        }
 
     }
 
