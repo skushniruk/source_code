@@ -1,0 +1,23 @@
+package demos;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+
+public class myApplet extends PApplet {
+	
+	PImage img;
+	public void setup()
+	{
+		size(400, 300);
+		img = loadImage("palmTrees.jpg", "jpg");
+		img.resize(width, height);
+		background(img);
+		
+	}
+	
+	public void draw()
+	{
+		//background(img);
+	}
+
+}
