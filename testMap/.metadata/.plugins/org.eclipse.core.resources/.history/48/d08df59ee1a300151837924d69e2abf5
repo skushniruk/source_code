@@ -154,9 +154,8 @@ public class EarthquakeCityMap extends PApplet {
 		ellipse(45.0f, 225.0f, small, small);
 		fill(0, 0, 0);
 		text("Earthquake Key", 45.0f, 80.0f);
-		text("5.0+ Magnitude", 65.0f, 129.0f);
-		text("4.0+ Magnitude", 65.0f, 179.0f);
-		text("Below 4.0", 65.0f, 229.0f);
+		text("5.0+ Magnitude", 65.0f, 125.0f);
+		
 	
 	}
 }

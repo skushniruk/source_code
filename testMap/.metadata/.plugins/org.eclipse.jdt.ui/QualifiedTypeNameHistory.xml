@@ -3,4 +3,5 @@
 <fullyQualifiedTypeName name="processing.core.PApplet"/>
 <fullyQualifiedTypeName name="processing.core.PImage"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="processing.core.PGraphics"/>
 </qualifiedTypeNameHistroy>

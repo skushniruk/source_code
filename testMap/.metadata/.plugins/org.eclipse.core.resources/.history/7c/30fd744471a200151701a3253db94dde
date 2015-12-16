@@ -8,12 +8,11 @@ import java.util.List;
 
 //Processing library
 import processing.core.PApplet;
-import processing.core.PGraphics;
+
 //Unfolding libraries
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.data.PointFeature;
-import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
@@ -49,9 +48,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
-	private float big = 20f;
-	private float medium = 10f;
-	private float small = 5f;
+
 	
 	public void setup() {
 		size(950, 600, OPENGL);
@@ -75,52 +72,22 @@ public class EarthquakeCityMap extends PApplet {
 	    //Use provided parser to collect properties for each earthquake
 	    //PointFeatures have a getLocation method
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
-	    SimplePointMarker marker;
+	    
 	    // These print statements show you (1) all of the relevant properties 
 	    // in the features, and (2) how to get one property and use it
-	    float circleSize;
-	    int color;
-	    PointFeature pf;
 	    if (earthquakes.size() > 0) {
-	        for (int i = 0; i < earthquakes.size(); i++)
-	        {
-	        	pf = earthquakes.get(i);
-	        	Object magObj = pf.getProperty("magnitude");
-		    	float mag = Float.parseFloat(magObj.toString());
-	        	if (mag >= 5.0f)
-	        	{
-	        		circleSize = big;
-	        		color = color(255, 0, 0);
-	        	}
-	        	else if (mag >= 4.0f)
-	        	{
-	        		circleSize = medium;
-	        		color = color(255, 255, 0);
-	        	}
-	        	else
-	        	{
-	        		circleSize = small;
-	        		color = color(0, 0, 255);
-	        	}
-	        	marker = createMarker(pf);
-	        	marker.setRadius(circleSize);
-	        	marker.setColor(color);
-	        	markers.add(marker);
-	        	
-	        }
-	    	/*System.out.println(f.getProperties());
+	    	PointFeature f = earthquakes.get(0);
+	    	System.out.println(f.getProperties());
 	    	Object magObj = f.getProperty("magnitude");
 	    	float mag = Float.parseFloat(magObj.toString());
 	    	// PointFeatures also have a getLocation method
-	    	System.out.println(earthquakes.size());*/
 	    }
 	    
 	    // Here is an example of how to use Processing's color method to generate 
 	    // an int that represents the color yellow.  
 	    int yellow = color(255, 255, 0);
 	    
-	    //mark = createMarker(f);
-	    map.addMarkers(markers);
+	    //TODO: Add code here as appropriate
 	}
 		
 	// A suggested helper method that takes in an earthquake feature and 
@@ -132,7 +99,6 @@ public class EarthquakeCityMap extends PApplet {
 		return new SimplePointMarker(feature.getLocation());
 	}
 	
-	PGraphics pg = new PGraphics();
 	public void draw() {
 	    background(10);
 	    map.draw();
@@ -144,19 +110,7 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Implement this method to draw the key
 	private void addKey() 
 	{	
-		fill(255, 255, 204);
-		rect(25, 50, 150, 250);
-		fill(255, 0, 0);
-		ellipse(45.0f, 125.0f, big, big);
-		fill(255, 255, 0);
-		ellipse(45.0f, 175.0f, medium, medium);
-		fill(0, 0, 255);
-		ellipse(45.0f, 225.0f, small, small);
-		fill(0, 0, 0);
-		text("Earthquake Key", 45.0f, 80.0f);
-		text("5.0+ Magnitude", 65.0f, 129.0f);
-		text("4.0+ Magnitude", 65.0f, 179.0f);
-		text("Below 4.0", 65.0f, 229.0f);
+		// Remember you can use Processing's graphics methods here
 	
 	}
 }
