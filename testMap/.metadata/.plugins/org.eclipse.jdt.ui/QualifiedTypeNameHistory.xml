@@ -4,4 +4,9 @@
 <fullyQualifiedTypeName name="processing.core.PImage"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="processing.core.PGraphics"/>
+<fullyQualifiedTypeName name="de.fhpotsdam.unfolding.Map"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="com.jogamp.common.util.IntIntHashMap.Entry"/>
+<fullyQualifiedTypeName name="java.util.Map.Entry"/>
+<fullyQualifiedTypeName name="de.fhpotsdam.unfolding.marker.SimplePointMarker"/>
 </qualifiedTypeNameHistroy>

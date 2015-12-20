@@ -1,8 +1,11 @@
 package module4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
+import de.fhpotsdam.unfolding.Map;
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -11,6 +14,7 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
+import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
@@ -80,8 +84,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
-		
+		earthquakesURL = "quiz1.atom";
 		
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
@@ -98,7 +101,8 @@ public class EarthquakeCityMap extends PApplet {
 		//     STEP 3: read in earthquake RSS feed
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 	    quakeMarkers = new ArrayList<Marker>();
-	    
+	   // SimplePointMarker mp = new OceanQuakeMarker(earthquakes.get(0));
+	   // EarthquakeMarker pm = mp;
 	    for(PointFeature feature : earthquakes) {
 		  //check if LandQuake
 		  if(isLand(feature)) {
@@ -162,6 +166,11 @@ public class EarthquakeCityMap extends PApplet {
 	// set this "country" property already.  Otherwise it returns false.
 	private boolean isLand(PointFeature earthquake) {
 		
+		for (int i = 0; i < countryMarkers.size(); i++)
+		{
+			if (isInCountry(earthquake, countryMarkers.get(i)))
+				return true;
+		}
 		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
 		
 		// TODO: Implement this method using the helper method isInCountry
@@ -178,7 +187,37 @@ public class EarthquakeCityMap extends PApplet {
 	// And LandQuakeMarkers have a "country" property set.
 	private void printQuakes() 
 	{
-		// TODO: Implement this method
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int temp;
+		int oceanQuakeCount = 0;
+		for (Marker mark : quakeMarkers)
+		{
+			if (mark instanceof LandQuakeMarker)
+			{
+				String str = ((LandQuakeMarker) mark).getCountry();
+				if (map.containsKey(str))
+				{
+					 temp = map.get(str);
+					 temp++;
+					 map.put(str, temp);
+				}
+				else{
+					map.put(str, 1);
+					}
+				
+				
+			}
+			else
+				oceanQuakeCount++;
+		}
+		for (Entry<String, Integer> entry : map.entrySet())
+		{
+			String country = entry.getKey();
+			int count = entry.getValue();
+			System.out.println("In " + country + " country happened: " + count + ((count == 1) ? " earthquake" : " earthquakes"));
+		}
+		System.out.println("In the sea happened: " + oceanQuakeCount + ((oceanQuakeCount == 1) ? " earthquake" : " earthquakes"));
+			
 	}
 	
 	
