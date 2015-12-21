@@ -33,6 +33,11 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		float prop = (float) properties.get("radius");
 		pg.ellipse(x, y, prop, prop);
+		if (properties.get("ageQuake").equals("Past Hour"))
+		{
+			pg.line(x-prop, y-prop, x+prop, y+prop);
+			pg.line(x-prop, y+prop, x+prop, y-prop);
+		}
 		
 	}
 	

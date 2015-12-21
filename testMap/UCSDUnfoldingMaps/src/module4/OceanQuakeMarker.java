@@ -28,8 +28,13 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 		
 		// HINT: Notice the radius variable in the EarthquakeMarker class
 		// and how it is set in the EarthquakeMarker constructor
-		float f = (float) properties.get("radius");
-		pg.rect(x-radius, y-radius, 2*radius, 2*radius);
+		float prop = (float) properties.get("radius");
+		pg.rect(x-prop, y-prop, 2*prop, 2*prop);
+		if (!properties.get("ageQuake").equals("Past Hour"))
+		{
+			pg.line(x-prop, y-prop, x+prop, y+prop);
+			pg.line(x-prop, y+prop, x+prop, y-prop);
+		}
 		
 	}
 	

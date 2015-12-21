@@ -132,7 +132,6 @@ public class EarthquakeCityMap extends PApplet {
 		return new SimplePointMarker(feature.getLocation());
 	}
 	
-	PGraphics pg = new PGraphics();
 	public void draw() {
 	    background(10);
 	    map.draw();
