@@ -52,6 +52,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		this.radius = 1.75f*getMagnitude();
 		String str = properties.get("age").toString();
 		properties.put("ageQuake", str);
+		System.out.println(str);
 	}
 	
 
