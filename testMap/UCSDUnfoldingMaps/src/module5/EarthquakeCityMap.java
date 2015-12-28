@@ -148,10 +148,10 @@ public class EarthquakeCityMap extends PApplet {
 	{
 		for (int i = 0; i < markers.size(); i++)
 		{
-			if (markers.get(i).isInside(map, (float) mouseX, (float) mouseY))
+			if (markers.get(i).isInside(map, (float) mouseX, (float) mouseY) & lastSelected == null)
 			{
 				lastSelected = (CommonMarker) markers.get(i);
-				System.out.println(markers.get(i).isInside(map, (float) mouseX, (float) mouseY));
+				lastSelected.setSelected(true);
 				break;
 			}
 		}
@@ -162,16 +162,62 @@ public class EarthquakeCityMap extends PApplet {
 	 * Or if a city is clicked, it will display all the earthquakes 
 	 * where the city is in the threat circle
 	 */
+
 	@Override
 	public void mouseClicked()
 	{
-		// TODO: Implement this method
-		// Hint: You probably want a helper method or two to keep this code
-		// from getting too long/disorganized
+		if (lastClicked == null)
+		{
+			lastClicked = findMarker();
+			if (lastClicked == null) { 
+				return; }
+			hideMarkers();
+		}
+		else
+		{
+			unhideMarkers();
+			lastClicked = null;
+		}
+			
 	}
 	
+	private void hideMarkers()
+	{
+		for(Marker marker : quakeMarkers) {
+			if (!marker.equals(lastClicked))
+			marker.setHidden(true);
+		}
+			
+		for(Marker marker : cityMarkers) {
+			if (!marker.equals(lastClicked))
+			marker.setHidden(true);
+		}
+		
+	}
 	
-	// loop over and unhide all markers
+	private CommonMarker findMarker()
+	{
+		CommonMarker cm;
+		for (int i = 0; i < quakeMarkers.size(); i++)
+		{
+			if (quakeMarkers.get(i).isInside(map, (float) mouseX, (float) mouseY))
+			{
+				cm = (CommonMarker) quakeMarkers.get(i);
+				return cm;
+			}
+		}
+		for (int i = 0; i < cityMarkers.size(); i++)
+		{
+			if (cityMarkers.get(i).isInside(map, (float) mouseX, (float) mouseY))
+			{
+				cm = (CommonMarker) cityMarkers.get(i);
+				return cm;
+			}
+		}
+		return null;
+	}
+	
+		
 	private void unhideMarkers() {
 		for(Marker marker : quakeMarkers) {
 			marker.setHidden(false);
