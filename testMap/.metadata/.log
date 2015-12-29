@@ -1113,6 +1113,7 @@ org.eclipse.swt.SWTException: Widget is disposed
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:669)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:608)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1515)
+<<<<<<< HEAD
 
 !ENTRY org.eclipse.recommenders.rcp 2 15 2015-12-28 18:26:48.492
 !MESSAGE Failed to parse news feed
@@ -1140,3 +1141,15 @@ java.net.UnknownHostException: www.codetrails.com
 	at org.eclipse.recommenders.internal.rcp.news.CheckForProjectNewsJob.doRun(CheckForProjectNewsJob.java:89)
 	at org.eclipse.recommenders.internal.rcp.news.CheckForProjectNewsJob.run(CheckForProjectNewsJob.java:62)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+=======
+!SESSION 2015-12-28 11:32:36.668 -----------------------------------------------
+eclipse.buildId=4.5.1.M20150904-0015
+java.version=1.8.0_66
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/forteadmin/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/forteadmin/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.resources 2 10035 2015-12-28 11:33:33.710
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+>>>>>>> 08647daa77032bac20388974b37f72f94314621f
