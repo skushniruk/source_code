@@ -151,7 +151,6 @@ public class EarthquakeCityMap extends PApplet {
 			if (markers.get(i).isInside(map, (float) mouseX, (float) mouseY))
 			{
 				lastSelected = (CommonMarker) markers.get(i);
-				System.out.println(markers.get(i).isInside(map, (float) mouseX, (float) mouseY));
 				break;
 			}
 		}
