@@ -151,10 +151,7 @@ public class EarthquakeCityMap extends PApplet {
 			if (markers.get(i).isInside(map, (float) mouseX, (float) mouseY) & lastSelected == null)
 			{
 				lastSelected = (CommonMarker) markers.get(i);
-<<<<<<< HEAD
-=======
 				lastSelected.setSelected(true);
->>>>>>> 08647daa77032bac20388974b37f72f94314621f
 				break;
 			}
 		}
