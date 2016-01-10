@@ -11,7 +11,7 @@ import processing.core.PGraphics;
  * @author UC San Diego Intermediate Software Development MOOC team
  * 
  */
-public class CityMarker extends CommonMarker {
+public class CityMarker extends CommonMarker implements Comparable{
 	
 	public static int TRI_SIZE = 5;  // The size of the triangle marker
 	
@@ -83,5 +83,22 @@ public class CityMarker extends CommonMarker {
 	private float getPopulation()
 	{
 		return Float.parseFloat(getStringProperty("population"));
+	}
+	public String getCityPublic()
+	{
+		return this.getCity();
+	}
+
+
+	@Override
+	public int compareTo(Object markerr) {
+		CityMarker marker = (CityMarker) markerr;
+		int result = this.getCity().compareTo(marker.getCity());
+		if (result < 0)
+			return -1;
+		else if (result > 0)
+			return 1;
+		else
+			return 0;
 	}
 }

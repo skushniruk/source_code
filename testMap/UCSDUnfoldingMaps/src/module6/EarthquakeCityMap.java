@@ -66,6 +66,11 @@ public class EarthquakeCityMap extends PApplet {
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
 	
+	//new feature: search string
+	private String searchString = "Type to search...";
+	
+	private boolean displayResults = false;
+	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
@@ -135,10 +140,61 @@ public class EarthquakeCityMap extends PApplet {
 		background(0);
 		map.draw();
 		addKey();
+		searchBox();
+		resultsBox();
 		
 	}
 	
-	
+	// draws white box and puts all found earthquakes into this box if there is any,
+	//otherwise it draws only box with String
+	private void resultsBox()
+	{
+		int xbase = 25;
+		int ybase = 350;
+		if (displayResults)
+		{
+			fill(255, 255, 255);
+			rect(xbase, ybase, 450, 300);
+			textAlign(LEFT, TOP);
+			fill(0, 0, 0);
+			textSize(12);
+			if (closest.size() < 1)
+			{
+				text("Sorry but we can't find your city:( \nTry once more", xbase+2, ybase+2);
+			}
+			else
+			{
+				for (int i = 0; i < 27; i++)
+				{
+					CityMarker marker;
+					EarthquakeMarker quakeMarker;
+					if (closest.get(i) instanceof CityMarker)
+					{
+						marker = (CityMarker) closest.get(i);
+						text(marker.getCityPublic(), xbase+2, ybase+i*10);
+					}
+					else 
+					{
+						quakeMarker = (EarthquakeMarker) closest.get(i);
+						String text = (int) quakeMarker.getDistanceToCity() + " km to city " +  
+								" " + quakeMarker.getTitle();
+						text(text, xbase+2, ybase+i*10);
+					}
+				}
+				for (int ii = 27; ii < closest.size(); ii++)
+				{
+					closest.get(ii).setHidden(true);
+				}
+				for (Marker mar : cityMarkers)
+				{
+					if (!mar.equals(closest.get(0)))
+						mar.setHidden(true);
+				}
+			}
+		}
+		
+		
+	}
 	
 	private void sortAndPrint(int numToPrint)
 	{
@@ -176,6 +232,99 @@ public class EarthquakeCityMap extends PApplet {
 		selectMarkerIfHover(cityMarkers);
 		//loop();
 	}
+	@Override
+	public void keyTyped(java.awt.event.KeyEvent e)
+	{
+		String str = "" + e.getKeyChar();
+		if (str.equals("\n") & !searchString.equals("Type to search..."))
+		{
+			closest.removeAll(closest);
+			searchCity();
+			displayResults = true;
+			return;
+		}
+		if (str.equals("\b"))
+		{
+			searchString = searchString.substring(0, searchString.length()-1);
+			return;
+		}
+		if (searchString.equals("Type to search...") & !str.equals("\n"))
+		{
+			searchString = "" + e.getKeyChar();
+		}
+		else if (!str.equals("\n"))
+		{
+			searchString = searchString + e.getKeyChar();
+		}
+		
+	}
+	ArrayList<Marker> closest = new ArrayList<Marker>();
+	
+	//method that provides city search
+	public void searchCity()
+	{
+		ArrayList<CityMarker> markers = new ArrayList<CityMarker>();
+		
+		for (Marker mark : cityMarkers)
+			markers.add((CityMarker) mark);
+		Collections.sort(markers);
+		
+		int first = 0;
+		int last = markers.size()-1;
+		int mid;
+		while (first <= last)
+		{
+			mid = (first + last)/2;
+			int result = searchString.toLowerCase().compareTo(markers.get(mid).getCityPublic().toLowerCase());
+			if (result < 0)
+			{
+				last = mid-1;
+			}
+			else if (result > 0)
+			{
+				first = mid+1;
+			}
+			else
+			{
+				closest.add(markers.get(mid));
+				sortTheClosestQuakes();
+				break;
+			}
+		}
+		
+		
+		
+	}
+	
+	//method sorting the closest earthquakes
+	private void sortTheClosestQuakes()
+	{
+		for (int i = 0; i < quakeMarkers.size(); i++)
+		{
+				EarthquakeMarker markerr = (EarthquakeMarker) quakeMarkers.get(i);
+				markerr.setDistanceToCity(closest.get(0).getDistanceTo(quakeMarkers.get(i).getLocation()));
+				closest.add(markerr);
+
+		}
+		if (closest.size() >= 3)
+		{
+			Marker mark = closest.get(0);
+			int curr;
+			for (int i = 2; i < closest.size(); i++)
+			{
+				curr = i;
+				while (curr > 1 & mark.getDistanceTo(closest.get(curr).getLocation()) < 
+				mark.getDistanceTo(closest.get(curr-1).getLocation()))
+				{
+					Marker tempMarker = closest.get(curr);
+					closest.remove(curr);
+					closest.add(curr-1, tempMarker);
+					curr--;
+				}
+			}
+		}
+		
+	}
 	
 	// If there is a marker selected 
 	private void selectMarkerIfHover(List<Marker> markers)
@@ -204,6 +353,13 @@ public class EarthquakeCityMap extends PApplet {
 	@Override
 	public void mouseClicked()
 	{
+		if (displayResults)
+		{
+			unhideMarkers();
+			searchString = "Type to search...";
+			displayResults = false;
+		}
+		
 		if (lastClicked != null) {
 			unhideMarkers();
 			lastClicked = null;
@@ -343,10 +499,22 @@ public class EarthquakeCityMap extends PApplet {
 		line(centerx-8, centery-8, centerx+8, centery+8);
 		line(centerx-8, centery+8, centerx+8, centery-8);
 		
-		
-	}
 
+	}
 	
+	//method that draws search box
+	public void searchBox()
+	{
+		int xbase = 25;
+		int ybase = 310;
+		fill(255, 255, 255);
+		rect(xbase, ybase, 150, 20);
+		
+		textAlign(LEFT, CENTER);
+		fill(0, 0, 0);
+		textSize(12);
+		text(searchString, xbase+2, ybase+9);
+	}
 	
 	// Checks whether this quake occurred on land.  If it did, it sets the 
 	// "country" property of its PointFeature to the country where it occurred

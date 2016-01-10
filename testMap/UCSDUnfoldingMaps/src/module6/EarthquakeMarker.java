@@ -22,6 +22,8 @@ public abstract class EarthquakeMarker extends CommonMarker implements Comparabl
 	// based on magnitude. 
 	protected float radius;
 	
+	//field that shows distance from earthquake to city
+	private double distanceToCity;
 	
 	// constants for distance
 	protected static final float kmPerMile = 1.6f;
@@ -185,6 +187,16 @@ public abstract class EarthquakeMarker extends CommonMarker implements Comparabl
 	public boolean isOnLand()
 	{
 		return isOnLand;
+	}
+	
+	public void setDistanceToCity(double distance)
+	{
+		this.distanceToCity = distance;
+	}
+	
+	public double getDistanceToCity()
+	{
+		return this.distanceToCity;
 	}
 	
 
