@@ -28,9 +28,11 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumWords()
 	{
-		//TODO: Implement this method.  See the Module 1 support videos 
-	    // if you need help.
-	    return 0;
+		if (this.getText() == "")
+			return 0;
+		String[] txt;
+	    txt = this.getText().split("[ !,.?0-9]+");
+	    return txt.length;
 	}
 	
 	/**
@@ -44,11 +46,13 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSentences()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		if (this.getText() == "")
+			return 0;
+		String[] txt;
+	    txt = this.getText().split("[.!?]+");
+	    return txt.length;
 	}
-	
+
 	/**
 	 * Get the number of syllables in the document.
 	 * Words are defined as above.  Syllables are defined as:
@@ -60,9 +64,21 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		if (this.getText() == "")
+			return 0;
+		int count = 0;
+		char[] ch = this.getText().toLowerCase().toCharArray();
+		for (int i = 1; i < ch.length-1; i++)
+		{
+			if ((ch[i] == 97 | ch[i] == 101 | ch[i] == 105 | ch[i] == 111 | ch[i] == 117 | 
+					ch[i] == 121) & ch[i-1] != ch[i] & (ch[i-1] != 97 & ch[i-1] != 101 & ch[i-1] != 105 & ch[i-1] != 111 & ch[i-1] != 117 & 
+					ch[i-1] != 121))
+				count++;
+			if (ch[i+1] < 96 & ch[i] == 101)
+				count--;
+		}
+		return count;
+		
 	}
 	
 	
