@@ -116,8 +116,18 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-	    // TODO: Implement this method
-	    return 0.0;
+		int word = this.getNumWords();
+		int syllabel = this.getNumSyllables();
+		int sentence = this.getNumSentences();
+		if (word == 0)
+			word = 1;
+		if (syllabel == 0)
+			syllabel = 1;
+		if (sentence == 0)
+			sentence = 1;
+	    double d;
+	    d = 206.835 - (1.015 * (word/sentence)) - 84.6 * ((syllabel/word));
+	    return d;
 	}
 	
 	

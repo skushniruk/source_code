@@ -74,8 +74,11 @@ public class BasicDocument extends Document
 					ch[i] == 121) & ch[i-1] != ch[i] & (ch[i-1] != 97 & ch[i-1] != 101 & ch[i-1] != 105 & ch[i-1] != 111 & ch[i-1] != 117 & 
 					ch[i-1] != 121))
 				count++;
+			
 			if (ch[i+1] < 96 & ch[i] == 101)
 				count--;
+			if (ch[i] == 101 && i > 3 && ((ch[i-1] == 98 && ch[i-2] == 32 && ch[i+1] == 32) | (ch[i-1] == 104 && ch[i-2] == 116 && ch[i-3] == 32 && ch[i+1] == 32)))
+				count++;
 		}
 		return count;
 		
@@ -102,7 +105,6 @@ public class BasicDocument extends Document
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
-		
 		
 	}
 	
